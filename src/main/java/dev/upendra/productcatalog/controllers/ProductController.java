@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
@@ -37,6 +36,12 @@ public class ProductController {
     @GetMapping
     public List<GenericProductDto> getAllProducts(){
         return productservice.getAllProducts();
+    }
+
+
+    @DeleteMapping("{id}")
+    public GenericProductDto deleteProduct(@PathVariable("id") Long id){
+        return productservice.deleteProductById(id);
     }
 
 

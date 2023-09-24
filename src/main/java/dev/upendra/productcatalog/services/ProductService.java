@@ -8,4 +8,6 @@ public interface ProductService {
     GenericProductDto createProduct(GenericProductDto product);
 
     List<GenericProductDto> getAllProducts();
+
+    GenericProductDto deleteProductById(Long id);
 }
