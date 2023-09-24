@@ -5,6 +5,7 @@ import dev.upendra.productcatalog.dtos.GenericProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.HttpMessageEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.ResponseExtractor;
@@ -84,8 +85,9 @@ public class FakeStoreProductService implements ProductService {
 
     public GenericProductDto deleteProductById(Long id) {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        //Here there is deleteEntity() method will delete the product but will not return anything
-        //so we copy the getEntity() method internal code and implemented http.delete from own
+        //Here there is deleteEntity() method will delete the product but will not return anything but-
+        // we need GenericProduct in return according to fakestore delete api-
+        //so we copy the getEntity() method internal code from RestTamplate.class and edit http.delete from own
         //so the following code come from there.
 
         RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(
@@ -96,6 +98,25 @@ public class FakeStoreProductService implements ProductService {
 
         ResponseEntity<FakeStoreProductDto> response = restTemplate.execute(
                 specificProductRequestUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
+
+        FakeStoreProductDto fakeStoreProductDto = response.getBody();
+
+        return convertFakeStoreToGeneric(fakeStoreProductDto);
+    }
+
+
+
+    public GenericProductDto updateProduct(Long id, GenericProductDto product){
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        //Here we need GenericProduct in return so i edited the postForEntity code from
+        //RestTemplate.class to update the product
+
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(
+                product, FakeStoreProductService.class);
+        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> response = restTemplate.execute(
+                specificProductRequestUrl, HttpMethod.PUT, requestCallback, responseExtractor, id);
 
         FakeStoreProductDto fakeStoreProductDto = response.getBody();
 

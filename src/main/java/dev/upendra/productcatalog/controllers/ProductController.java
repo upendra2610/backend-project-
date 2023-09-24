@@ -45,6 +45,12 @@ public class ProductController {
     }
 
 
+    @PutMapping("{id}")
+    public GenericProductDto updateById(@PathVariable("id") Long id,@RequestBody GenericProductDto product){
+        return productservice.updateProduct(id,product);
+    }
+
+
 
 
 
