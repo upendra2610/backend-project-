@@ -4,6 +4,9 @@ package dev.upendra.productcatalog.controllers;
 import dev.upendra.productcatalog.dtos.GenericProductDto;
 import dev.upendra.productcatalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -40,8 +43,11 @@ public class ProductController {
 
 
     @DeleteMapping("{id}")
-    public GenericProductDto deleteProduct(@PathVariable("id") Long id){
-        return productservice.deleteProductById(id);
+    public ResponseEntity<GenericProductDto> deleteProduct(@PathVariable("id") Long id){
+        //Returned as a response Entity which has ability to return HttpStatus
+        //controller has the info of Http status not in service, controller know info about service status
+        return new ResponseEntity<>(productservice.deleteProductById(id), HttpStatus.NOT_FOUND);
+//        return productservice.deleteProductById(id);
     }
 
 
