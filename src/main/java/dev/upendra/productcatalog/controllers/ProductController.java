@@ -1,6 +1,7 @@
 package dev.upendra.productcatalog.controllers;
 
 
+import dev.upendra.productcatalog.dtos.ExceptionDto;
 import dev.upendra.productcatalog.dtos.GenericProductDto;
 import dev.upendra.productcatalog.exceptions.NotFoundExceptions;
 import dev.upendra.productcatalog.services.ProductService;
@@ -33,8 +34,15 @@ public class ProductController {
         // Any of the method of this controller which services throws notfound exception-
         // this method will automatically called
         @ExceptionHandler(NotFoundExceptions.class)
-        private void exceptionHandler(){
-            System.out.println("Not found");
+        private ResponseEntity<ExceptionDto> notFoundExceptionHandler(NotFoundExceptions notFoundExceptions){
+              return new ResponseEntity(
+                      new ExceptionDto(HttpStatus.NOT_FOUND, notFoundExceptions.getMessage()),
+                      HttpStatus.NOT_FOUND
+
+              );
+              //We have created meaningful exception with good Http status code
+            //better presentation
+
         }
 
     @PostMapping()
