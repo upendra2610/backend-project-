@@ -33,17 +33,8 @@ public class ProductController {
 
         // Any of the method of this controller which services throws notfound exception-
         // this method will automatically called
-        @ExceptionHandler(NotFoundExceptions.class)
-        private ResponseEntity<ExceptionDto> notFoundExceptionHandler(NotFoundExceptions notFoundExceptions){
-              return new ResponseEntity(
-                      new ExceptionDto(HttpStatus.NOT_FOUND, notFoundExceptions.getMessage()),
-                      HttpStatus.NOT_FOUND
 
-              );
-              //We have created meaningful exception with good Http status code
-            //better presentation
 
-        }
 
     @PostMapping()
     public GenericProductDto createProduct(@RequestBody GenericProductDto product){
