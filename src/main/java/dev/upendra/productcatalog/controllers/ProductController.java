@@ -2,6 +2,7 @@ package dev.upendra.productcatalog.controllers;
 
 
 import dev.upendra.productcatalog.dtos.GenericProductDto;
+import dev.upendra.productcatalog.exceptions.NotFoundExceptions;
 import dev.upendra.productcatalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
@@ -24,9 +25,16 @@ public class ProductController {
 //    @GetMapping
 //    public void getAllProducts(){}
         @GetMapping("{id}")
-        public GenericProductDto getProductById(@PathVariable("id") Long id){
-            return productservice.getProductById(id);
+        public GenericProductDto getProductById(@PathVariable("id") Long id) throws NotFoundExceptions {
+            return productservice.getProductById (id);
 
+        }
+
+        // Any of the method of this controller which services throws notfound exception-
+        // this method will automatically called
+        @ExceptionHandler(NotFoundExceptions.class)
+        private void exceptionHandler(){
+            System.out.println("Not found");
         }
 
     @PostMapping()

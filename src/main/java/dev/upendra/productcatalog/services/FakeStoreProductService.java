@@ -2,6 +2,7 @@ package dev.upendra.productcatalog.services;
 
 import dev.upendra.productcatalog.dtos.FakeStoreProductDto;
 import dev.upendra.productcatalog.dtos.GenericProductDto;
+import dev.upendra.productcatalog.exceptions.NotFoundExceptions;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +41,19 @@ public class FakeStoreProductService implements ProductService {
         return product;
     }
 
-    public GenericProductDto getProductById(Long id) {
+    public GenericProductDto getProductById(Long id) throws NotFoundExceptions {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         ResponseEntity<FakeStoreProductDto> response = restTemplate.getForEntity(specificProductRequestUrl, FakeStoreProductDto.class, id);
         FakeStoreProductDto fakeStoreProductDto = response.getBody();
 
+        if(fakeStoreProductDto == null){
+            throw new NotFoundExceptions("Product with id:"+ id + "doesn't exist");
+        }
+
 
         return convertFakeStoreToGeneric(fakeStoreProductDto);
+
 
 
     }
