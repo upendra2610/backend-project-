@@ -3,6 +3,7 @@ package dev.upendra.productcatalog.thirdpartyclients.thirdpartyclientservice.fak
 import dev.upendra.productcatalog.dtos.GenericProductDto;
 import dev.upendra.productcatalog.exceptions.NotFoundExceptions;
 import dev.upendra.productcatalog.services.FakeStoreProductService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -20,11 +21,23 @@ import java.util.List;
 public class FakeStoreProductServiceClient {
 
     private RestTemplateBuilder restTemplateBuilder;
-    private String specificProductRequestUrl = "https://fakestoreapi.com/products/{id}";
-    private String productRequestBaseUrl = "https://fakestoreapi.com/products";
+    private String specificProductRequestUrl;
+    private String productRequestBaseUrl;
 
-    public FakeStoreProductServiceClient(RestTemplateBuilder restTemplateBuilder){
+    @Value("${fakestore.api.url}")
+    private String fakestoreApiUrl;
+
+    @Value("${fakestore.api.paths.product}")
+    private String fakeStoreApiPath;
+
+    public FakeStoreProductServiceClient(RestTemplateBuilder restTemplateBuilder,
+                                         @Value("${fakestore.api.url}") String fakestoreApiUrl,
+                                         @Value("${fakestore.api.paths.product}") String fakeStoreApiPath
+                                         ){
+
         this.restTemplateBuilder = restTemplateBuilder;
+        this.productRequestBaseUrl = fakestoreApiUrl + fakeStoreApiPath;
+        this.specificProductRequestUrl = fakestoreApiUrl + fakeStoreApiPath + "/{id}";
     }
 
 
