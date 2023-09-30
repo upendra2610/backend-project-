@@ -1,4 +1,4 @@
-package dev.upendra.productcatalog.dtos;
+package dev.upendra.productcatalog.thirdpartyclients.thirdpartyclientservice.fakestore;
 
 import lombok.Getter;
 import lombok.Setter;
