@@ -3,8 +3,6 @@ package dev.upendra.productcatalog.thirdpartyclients.thirdpartyclientservice.fak
 import dev.upendra.productcatalog.dtos.GenericProductDto;
 import dev.upendra.productcatalog.exceptions.NotFoundExceptions;
 import dev.upendra.productcatalog.services.FakeStoreProductService;
-import dev.upendra.productcatalog.thirdpartyclients.thirdPartyClient;
-import dev.upendra.productcatalog.thirdpartyclients.thirdpartyclientservice.fakestore.FakeStoreProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class FakeStoreProductServiceClient implements thirdPartyClient {
+public class FakeStoreProductServiceClient {
 
     private RestTemplateBuilder restTemplateBuilder;
     private String specificProductRequestUrl = "https://fakestoreapi.com/products/{id}";
